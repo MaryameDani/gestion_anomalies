@@ -47,8 +47,8 @@ export const getUserRole = () => {
       "ADMINISTRATEUR": "admin",
       "PERMANENCIER_CAMION": "permanencierCamion",
       "PERMANENCIER_MACHINE": "permanencierMachine",
-      "PERM_MAINTENANCE_DRAGLINE": "permanencierMaintenanceDragline",
-      "PERM_MAINTENANCE_ENGIN": "permanencierMaintenanceEngin",
+      "PERMANENCIER_MAINTENANCE_DRAGLINE": "permanencierMaintenanceDragline",
+      "PERMANENCIER_MAINTENANCE_ENGINS": "permanencierMaintenanceEngin",
       "MAINTENANCIER": "Maintenancier"
     };
     
