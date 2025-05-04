@@ -1,0 +1,61 @@
+Watching for file changes with StatReloader
+Internal Server Error: /api/user-info/
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\views.py", line 67, in get_utilisateur_info_by_role
+    'id': utilisateur.id,
+          ^^^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'id'
+"GET /api/user-info/ HTTP/1.1" 500 71710
+Internal Server Error: /api/user-info/
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\views.py", line 67, in get_utilisateur_info_by_role
+    'id': utilisateur.id,
+          ^^^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'id'
+"GET /api/user-info/ HTTP/1.1" 500 71710
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/user-info/ HTTP/1.1" 302 0
+"GET /api/user-info/ HTTP/1.1" 302 0
+"OPTIONS /accounts/login/?next=/api/user-info/ HTTP/1.1" 200 0
+"OPTIONS /accounts/login/?next=/api/user-info/ HTTP/1.1" 200 0
+Not Found: /accounts/login/
+"GET /accounts/login/?next=/api/user-info/ HTTP/1.1" 404 3567
+Not Found: /accounts/login/
+"GET /accounts/login/?next=/api/user-info/ HTTP/1.1" 404 3567
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\urls.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\urls.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\tickets\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"GET /api/user-info/ HTTP/1.1" 302 0
+"GET /api/user-info/ HTTP/1.1" 302 0
+Not Found: /accounts/login/
+"GET /accounts/login/?next=/api/user-info/ HTTP/1.1" 404 3836
+Not Found: /accounts/login/
+"GET /accounts/login/?next=/api/user-info/ HTTP/1.1" 404 3836
+C:\Users\pc\Desktop\gestion_anomalies_camions\backend\dashboard\settings.py changed, reloading.

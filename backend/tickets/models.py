@@ -39,7 +39,7 @@ class Utilisateur(AbstractUser):
     def is_permanencier_camion(self):
         return self.user_type == 'PERMANENCIER_CAMION'
     
-    def is_permanencier_machine(self):
+    def is_permanencier_machine(self): 
         return self.user_type == 'PERMANENCIER_MACHINE'
     
     def is_permanencier_maintenance_dragline(self):
