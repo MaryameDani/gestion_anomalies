@@ -9,7 +9,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined"
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { useNavigate } from "react-router-dom"
-import { logout } from "../utils/auth" // Importez le service d'authentification
+import { logout } from "../utils/auth" 
 
 const drawerWidth = 280
 const collapsedWidth = 70

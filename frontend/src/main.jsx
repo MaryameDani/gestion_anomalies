@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import AppLayout from './AppLayout'
-// Créez un thème personnalisé si nécessaire
+
 const theme = createTheme({
   palette: {
     primary: {

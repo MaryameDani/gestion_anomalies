@@ -84,7 +84,7 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      // Appel à l'API de connexion via le service authService
+      // Appel à l'API de connexion via le service auth
       await login({ 
         username: formData.username, 
         password: formData.password,

@@ -69,7 +69,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
     borderRight: "none", // Suppression de la bordure
     boxShadow: theme.shadows[3],
     overflowX: "hidden",
-    // Suppression complète du pseudo-élément after qui créait la ligne
   },
 }))
 
@@ -111,20 +110,14 @@ const menuItemsConfig = {
   permanencierCamion: {
     main: [
       { text: "Tableau de bord", icon: <DashboardOutlinedIcon />, path: "/permanencierCamion/dashboard" },
-      { text: "Déclarer anomalie", icon: <ReportProblemIcon />, path: "/permanencierCamion/declarer" },
-      { text: "Modifier une anomalie", icon: <EditIcon />, path: "/permanencierCamion/modifier" },
-      { text: "Consulter les tickets", icon: <VisibilityIcon />, path: "/permanencierCamion/consulter" },
-      { text: "Suivre les anomalies", icon: <TrackChangesIcon />, path: "/permanencierCamion/suivre" },
+      { text: "Déclarer anomalie", icon: <ReportProblemIcon />, path: "/permanencierCamion/ticket" },
       { text: "Fin de poste", icon: <ExitToAppIcon />, path: "/permanencierCamion/formulaireFin" },
     ],
   },
   permanencierMachine: {
     main: [
       { text: "Tableau de bord", icon: <DashboardOutlinedIcon />, path: "/permanencierMachine/dashboard" },
-      { text: "Déclarer anomalie", icon: <ReportProblemIcon />, path: "/permanencierMachine/declarer" },
-      { text: "Modifier une anomalie", icon: <EditIcon />, path: "/permanencierMachine/modifier" },
-      { text: "Consulter les tickets", icon: <VisibilityIcon />, path: "/permanencierMachine/consulter" },
-      { text: "Suivre les anomalies", icon: <TrackChangesIcon />, path: "/permanencierMachine/suivre" },
+      { text: "Déclarer anomalie", icon: <ReportProblemIcon />, path: "/permanencierMachine/ticket" },
       { text: "Fin de poste", icon: <ExitToAppIcon />, path: "/permanencierMachine/formulaireFin" },
     ],
   },
@@ -156,7 +149,6 @@ const menuItemsConfig = {
   },
 }
 
-// Helper function to get role details
 // Helper function to get role details
 const getRoleDetails = (role) => {
   const roleNames = {

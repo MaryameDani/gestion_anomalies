@@ -1,5 +1,3 @@
-// src/services/authService.js
-
 /**
  * Service centralisé pour gérer l'authentification
  */

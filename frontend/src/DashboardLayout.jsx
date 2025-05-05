@@ -16,7 +16,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const DashboardLayout = ({ role }) => {
-  // Set default state to true to open the sidebar by default
   const [open, setOpen] = useState(true);
   const location = useLocation();
 

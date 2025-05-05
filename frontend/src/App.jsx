@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
@@ -14,7 +15,6 @@ function App() {
   );
 }
 
-// Assurez-vous que 'theme' est également importé ou défini dans App.jsx
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
