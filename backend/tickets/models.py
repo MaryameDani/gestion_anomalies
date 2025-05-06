@@ -86,12 +86,28 @@ class Conducteur(models.Model):
 
 # ===================== TypeAnomalie =====================
 
+# Dans models.py
+
 class TypeAnomalie(models.Model):
+    TYPE_VEHICULE_CHOICES = (
+        ('CAMION', 'Camion'),
+        ('MACHINE', 'Machine'),
+    )
+    
+    GRAVITE_CHOICES = (
+        ('LEGERE', 'Légère'),
+        ('MOYENNE', 'Moyenne'),
+        ('GRAVE', 'Grave'),
+        ('CRITIQUE', 'Critique'),
+    )
+    
     nom = models.CharField(max_length=100)
-    identifiant = models.IntegerField()
-    description = models.TextField()
-    gravite_par_defaut = models.CharField(max_length=50)
-    type_vehicule_concerne = models.CharField(max_length=50)
+    identifiant = models.CharField(max_length=50, unique=True)
+    description = models.TextField(blank=True)
+    gravite_par_defaut = models.CharField(max_length=50, choices=GRAVITE_CHOICES, default='MOYENNE')
+    type_vehicule_concerne = models.CharField(max_length=50, choices=TYPE_VEHICULE_CHOICES)
+    est_personnalisee = models.BooleanField(default=False)
+    est_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.nom} - {self.type_vehicule_concerne}"
@@ -100,10 +116,18 @@ class TypeAnomalie(models.Model):
 # ===================== Ticket =====================
 
 class Ticket(models.Model):
-    reference = models.CharField(max_length=100)
-    description = models.TextField()
-    gravite = models.CharField(max_length=50)
-    statut = models.CharField(max_length=50)
+    STATUT_CHOICES = (
+        ('NOUVEAU', 'Nouveau'),
+        ('EN_COURS', 'En cours'),
+        ('RESOLU', 'Résolu'),
+        ('CLOTURE', 'Clôturé'),
+    )
+    
+    anomalies = models.ManyToManyField(TypeAnomalie, related_name='tickets', blank=True)
+    reference = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    gravite = models.CharField(max_length=50, choices=TypeAnomalie.GRAVITE_CHOICES)
+    statut = models.CharField(max_length=50, choices=STATUT_CHOICES, default='NOUVEAU')
     heure_creation = models.DateTimeField(auto_now_add=True)
     heure_modification = models.DateTimeField(auto_now=True)
     heure_cloture = models.DateTimeField(null=True, blank=True)
@@ -112,6 +136,20 @@ class Ticket(models.Model):
     utilisateur_createur = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, blank=True, related_name='tickets_crees')
     utilisateur_assigne = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, blank=True, related_name='tickets_assignes')
     vehicule = models.ForeignKey(Vehicule, on_delete=models.SET_NULL, null=True, blank=True)
+    anomalies_personnalisees = models.TextField(blank=True)  # Pour stocker les pannes personnalisées
+
+    def save(self, *args, **kwargs):
+        if not self.reference:
+            # Génération automatique de la référence
+            date_part = timezone.now().strftime('%Y%m%d')
+            last_ticket = Ticket.objects.filter(reference__startswith=f'TICK-{date_part}').order_by('reference').last()
+            if last_ticket:
+                last_num = int(last_ticket.reference.split('-')[-1])
+                new_num = last_num + 1
+            else:
+                new_num = 1
+            self.reference = f'TICK-{date_part}-{new_num:04d}'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Ticket {self.reference} - {self.statut}"
