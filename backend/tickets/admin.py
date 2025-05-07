@@ -37,10 +37,9 @@ admin.site.register(Vehicule, VehiculeAdmin)
 
 # Admin pour le modèle Conducteur
 class ConducteurAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'utilisateur', 'vehicule', 'phone', 'date_poste', 'heure_debut', 'heure_fin')
-    list_filter = ('vehicule', 'date_poste')
-    search_fields = ('first_name', 'last_name', 'phone', 'utilisateur__username', 'vehicule__matricule')
-    raw_id_fields = ('utilisateur', 'vehicule') # Utilisation de raw_id_fields pour les clés étrangères avec beaucoup d'enregistrements
+    list_display = ('first_name', 'last_name', 'phone', 'vehicule', 'date_poste')
+    search_fields = ('first_name', 'last_name', 'vehicule__matricule')
+    list_filter = ('vehicule__type_vehicule', 'date_poste')
 
 admin.site.register(Conducteur, ConducteurAdmin)
 

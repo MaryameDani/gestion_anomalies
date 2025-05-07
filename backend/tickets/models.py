@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+from datetime import date
 
 # ===================== Utilisateur =====================
 
@@ -70,7 +71,6 @@ class Vehicule(models.Model):
 # ===================== Conducteur =====================
 
 class Conducteur(models.Model):
-    utilisateur = models.OneToOneField(Utilisateur, on_delete=models.CASCADE)
     vehicule = models.ForeignKey(Vehicule, on_delete=models.SET_NULL, null=True, blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -85,8 +85,6 @@ class Conducteur(models.Model):
 
 
 # ===================== TypeAnomalie =====================
-
-# Dans models.py
 
 class TypeAnomalie(models.Model):
     TYPE_VEHICULE_CHOICES = (
@@ -131,7 +129,7 @@ class Ticket(models.Model):
     heure_creation = models.DateTimeField(auto_now_add=True)
     heure_modification = models.DateTimeField(auto_now=True)
     heure_cloture = models.DateTimeField(null=True, blank=True)
-    date_creation = models.DateField(default=timezone.now)
+    date_creation = models.DateField(default=date.today)
 
     utilisateur_createur = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, blank=True, related_name='tickets_crees')
     utilisateur_assigne = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, blank=True, related_name='tickets_assignes')
