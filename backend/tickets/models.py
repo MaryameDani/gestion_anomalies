@@ -57,12 +57,13 @@ class Utilisateur(AbstractUser):
 
 class Vehicule(models.Model):
     matricule = models.CharField(max_length=50)
-    type_vehicule = models.CharField(max_length=50)
+    type_vehicule = models.CharField(max_length=50,unique=True)
     marque = models.CharField(max_length=50)
     modele = models.CharField(max_length=50)
     date_mise_en_service = models.DateField()
     tonnage_max = models.FloatField(null=True, blank=True)
     en_service = models.BooleanField(default=True)
+    stade = models.CharField(max_length=50)
 
     def __str__(self):
         return f"{self.matricule} - {self.marque} {self.modele}"
@@ -71,14 +72,27 @@ class Vehicule(models.Model):
 # ===================== Conducteur =====================
 
 class Conducteur(models.Model):
+    PREMIER_POSTE = 1
+    DEUXIEME_POSTE = 2
+    TROISIEME_POSTE = 3
+
+    POST_CHOICES = [
+        (PREMIER_POSTE, 'Premier poste'),
+        (DEUXIEME_POSTE, 'Deuxième poste'),
+        (TROISIEME_POSTE, 'Troisième poste'),
+    ]
+    
     vehicule = models.ForeignKey(Vehicule, on_delete=models.SET_NULL, null=True, blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
     date_poste = models.DateField()
+    heures_travaillees = models.FloatField(default=0)
     heure_debut = models.DateTimeField()
     heure_fin = models.DateTimeField()
+    heure_de_fin_du_conteur= models.FloatField(default=0)
     commentaire = models.TextField()
+    poste = models.CharField(max_length=100, choices=POST_CHOICES, default=PREMIER_POSTE)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.vehicule.matricule}"
@@ -130,6 +144,7 @@ class Ticket(models.Model):
     heure_modification = models.DateTimeField(auto_now=True)
     heure_cloture = models.DateTimeField(null=True, blank=True)
     date_creation = models.DateField(default=date.today)
+    poste = models.CharField(max_length=100, choices=Conducteur.POST_CHOICES, default=Conducteur.PREMIER_POSTE)
 
     utilisateur_createur = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, blank=True, related_name='tickets_crees')
     utilisateur_assigne = models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, blank=True, related_name='tickets_assignes')

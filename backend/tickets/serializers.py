@@ -27,7 +27,7 @@ class VehiculeSerializer(serializers.ModelSerializer):
 class ConducteurSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conducteur
-        fields = ['id', 'utilisateur', 'vehicule', 'first_name', 'last_name', 'phone', 'date_poste', 'heure_debut', 'heure_fin', 'commentaire']
+        fields = ['id', 'vehicule', 'first_name', 'last_name', 'phone','poste', 'date_poste', 'heure_debut', 'heure_fin', 'commentaire']
 
 # ===================== TypeAnomalie =====================
 class TypeAnomalieSerializer(serializers.ModelSerializer):
@@ -46,7 +46,7 @@ class TicketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ['id', 'reference', 'vehicule', 'type_anomalies', 'anomalies_personnalisees', 'description', 'gravite', 'statut', 'heure_creation', 'heure_modification', 'heure_cloture', 'date_creation', 'utilisateur_createur', 'utilisateur_assigne']
+        fields = ['id', 'reference', 'vehicule', 'type_anomalies', 'anomalies_personnalisees', 'description', 'gravite', 'statut', 'poste','heure_creation', 'heure_modification', 'heure_cloture', 'date_creation', 'utilisateur_createur', 'utilisateur_assigne']
 
     def create(self, validated_data):
         """
