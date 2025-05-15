@@ -497,7 +497,7 @@ const PermanencierMachineTicket = () => {
         ) : (
           <Box>
             <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-              Tickets ({tickets.length})
+              Tickets
             </Typography>
 
             <Grid container spacing={3}>

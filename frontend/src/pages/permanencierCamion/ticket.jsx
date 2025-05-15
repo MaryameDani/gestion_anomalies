@@ -475,7 +475,7 @@ const PermanencierCamionTicket = () => {
               Gestion des Tickets Camions
             </Typography>
             <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-              Suivez et créez les anomalies des Camions
+              Suivez et créez les anomalies des camions
             </Typography>
           </Box>
           <Button
@@ -497,7 +497,7 @@ const PermanencierCamionTicket = () => {
         ) : (
           <Box>
             <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-              Tickets ({tickets.length})
+              Tickets
             </Typography>
 
             <Grid container spacing={3}>
@@ -580,7 +580,7 @@ const PermanencierCamionTicket = () => {
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                           <CalendarIcon sx={{ mr: 1, color: "primary.main" }} />
                           <Typography variant="body2">
-                            <strong>Créé le:</strong> {formatDate(ticket.date_creation)}
+                            <strong>Créé le:</strong>{formatDate(ticket.heure_creation)}
                           </Typography>
                         </Box>
                       </CardContent>
