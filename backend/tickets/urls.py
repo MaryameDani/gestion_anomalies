@@ -16,7 +16,6 @@ urlpatterns = [
     path('api/tickets/<int:ticket_id>/changer_statut/', views.changer_statut_ticket, name="changer_statut_ticket"),
     path('api/tickets/<int:ticket_id>/assigner/', views.assigner_ticket, name='assigner_ticket'),
     path('api/utilisateurs-par-type/', views.lister_utilisateurs_par_type, name='lister_utilisateurs_par_type'),
-    path('api/suivre-tickets/<int:ticket_id>/', views.suivre_tickets_par_id, name='suivre_ticket_by_id'),
     
     # Pannes et véhicules
     path('api/pannes/', views.lister_pannes, name='lister_pannes'), 

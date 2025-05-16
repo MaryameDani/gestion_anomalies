@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Utilisateur,Ticket, Vehicule, TypeAnomalie, Conducteur
+from .models import Utilisateur,Ticket, Vehicule, TypeAnomalie, Conducteur, ArretVehicule
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from rest_framework.permissions import IsAuthenticated
@@ -109,7 +109,6 @@ def creer_ticket(request):
     data = request.data
 
     try:
-        # Récupération des champs du frontend
         vehicule_id = data.get('vehicule')
         utilisateur_assigne_id = data.get('utilisateur_assigne')
         anomalies_ids = data.get('anomalies', [])
@@ -117,13 +116,11 @@ def creer_ticket(request):
         gravite = data.get('gravite')
         description = data.get('description', '')
         poste = data.get('poste')
-        statut= data.get('statut', 'NOUVEAU')
+        statut = data.get('statut', 'NOUVEAU')
 
-        # Vérification et récupération des objets
         vehicule = Vehicule.objects.get(id=vehicule_id) if vehicule_id else None
         utilisateur_assigne = Utilisateur.objects.get(id=utilisateur_assigne_id) if utilisateur_assigne_id else None
 
-        # Création du ticket
         ticket = Ticket.objects.create(
             vehicule=vehicule,
             utilisateur_assigne=utilisateur_assigne,
@@ -131,14 +128,29 @@ def creer_ticket(request):
             gravite=gravite,
             description=description,
             anomalies_personnalisees=anomalies_personnalisees,
-            poste= poste,
+            poste=poste,
             statut=statut,
         )
 
-        # Ajout des anomalies prédéfinies
         if anomalies_ids:
             anomalies = TypeAnomalie.objects.filter(id__in=anomalies_ids)
             ticket.anomalies.set(anomalies)
+
+        # Création automatique d'un arrêt lié
+        noms_anomalies = list(anomalies.values_list('nom', flat=True)) if anomalies_ids else []
+        if anomalies_personnalisees:
+            noms_anomalies.append(anomalies_personnalisees.strip())
+
+        type_arret = " / ".join(noms_anomalies)[:100] or "Anomalie sans nom"
+
+        ArretVehicule.objects.create(
+            vehicule=vehicule,
+            type_arret=type_arret,
+            heure_debut=timezone.now(),
+            description=description,
+            date_determination=timezone.now(),
+            ticket=ticket
+        )
 
         serializer = TicketSerializer(ticket)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -504,33 +516,42 @@ def enregistrer_pannes_formulaire(request):
 
     type_vehicule = 'CAMION' if user.user_type == 'PERMANENCIER_CAMION' else 'MACHINE'
 
-    pannes_ids = request.data.get('pannes_ids', [])  # liste d'IDs de TypeAnomalie
+    pannes_ids = request.data.get('pannes_ids', [])
     panne_personnalisee = request.data.get('panne_personnalisee', '').strip()
     description = request.data.get('description', '').strip()
 
+    # Filtrer les pannes existantes valides
     pannes_existantes = TypeAnomalie.objects.filter(id__in=pannes_ids, type_vehicule_concerne=type_vehicule)
 
-    resultats = {
-        "pannes_existantes": [str(p) for p in pannes_existantes],
-        "panne_personnalisee": panne_personnalisee,
-        "description": description,
-        "type_utilisateur": user.user_type
-    }
-
-    # Si tu veux créer la panne personnalisée dans la BDD (optionnel)
+    # Créer la liste des noms de pannes
+    liste_pannes_noms = list(pannes_existantes.values_list('nom', flat=True))
     if panne_personnalisee:
-        nouvelle_panne = TypeAnomalie.objects.create(
-            nom=panne_personnalisee[:100],
-            identifiant=f"custom_{user.id}_{panne_personnalisee[:10].replace(' ', '_')}",
-            description=description,
-            gravite_par_defaut='MOYENNE',
-            type_vehicule_concerne=type_vehicule,
-            est_personnalisee=True,
-            est_active=True
-        )
-        resultats["panne_personnalisee_creee"] = str(nouvelle_panne)
+        liste_pannes_noms.append(panne_personnalisee)
+    type_arret = " / ".join(liste_pannes_noms)[:100] or "Indéterminé"
 
-    return Response(resultats, status=status.HTTP_200_OK)
+    # Récupération du véhicule
+    vehicule_id = request.data.get("vehicule_id")
+    vehicule = Vehicule.objects.filter(id=vehicule_id).first()
+
+    if not vehicule:
+        return Response({"detail": "Véhicule non trouvé."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Enregistrement de l'arrêt
+    arret = ArretVehicule.objects.create(
+        vehicule=vehicule,
+        type_arret=type_arret,
+        heure_debut=timezone.now(),
+        description=description,
+        date_determination=timezone.now(),
+        ticket=None
+    )
+
+    return Response({
+        "pannes_existantes": [str(p) for p in pannes_existantes],
+        "panne_personnalisee_utilisee": panne_personnalisee,
+        "type_arret_enregistre": str(arret),
+        "arret_id": arret.id
+    }, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -555,32 +576,3 @@ def lister_utilisateurs_par_type(request):
     ]
 
     return Response({'success': True, 'utilisateurs': data})
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def suivre_tickets_par_id(request, ticket_id=None):
-    """
-    Vue qui retourne :
-    - tous les tickets visibles par l'utilisateur selon son rôle,
-    - ou un ticket spécifique s’il est autorisé à le voir.
-    """
-    utilisateur = request.user
-    type_utilisateur = utilisateur.user_type
-
-    if type_utilisateur in ['ADMINISTRATEUR', 'MAINTENANCIER']:
-        tickets = Ticket.objects.all()
-    elif type_utilisateur in ['PERMANENCIER_CAMION', 'PERMANENCIER_MACHINE']:
-        tickets = Ticket.objects.filter(utilisateur_createur=utilisateur)
-    elif type_utilisateur in ['PERMANENCIER_MAINTENANCE_DRAGLINE', 'PERMANENCIER_MAINTENANCE_ENGINS']:
-        tickets = Ticket.objects.filter(utilisateur_assigne=utilisateur)
-    else:
-        return Response({'detail': 'Accès non autorisé.'}, status=status.HTTP_403_FORBIDDEN)
-
-    # Si ticket_id est fourni dans l’URL
-    if ticket_id is not None:
-        tickets = tickets.filter(id=ticket_id)
-        if not tickets.exists():
-            return Response({'detail': 'Ticket introuvable ou non autorisé.'}, status=status.HTTP_404_NOT_FOUND)
-
-    serializer = TicketSerializer(tickets, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)

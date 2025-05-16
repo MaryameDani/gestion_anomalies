@@ -554,7 +554,7 @@ const PermanencierMachineTicket = () => {
                         </Box>
 
                         <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                          <InfoIcon sx={{ mr: 1, color: "primary.main" }} />
+                          <InfoIcon sx={{ mr: 1, color: "#4A919E" }} />
                           <Typography variant="body2" noWrap title={vehicleInfo}>
                             <strong>Engin:</strong> {vehicleInfo}
                           </Typography>

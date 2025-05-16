@@ -554,14 +554,14 @@ const PermanencierCamionTicket = () => {
                         </Box>
 
                         <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                          <InfoIcon sx={{ mr: 1, color: "primary.main" }} />
+                          <InfoIcon sx={{ mr: 1, color: "#A7001E" }} />
                           <Typography variant="body2" noWrap title={vehicleInfo}>
                             <strong>Engin:</strong> {vehicleInfo}
                           </Typography>
                         </Box>
 
                         <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                          <PersonIcon sx={{ mr: 1, color: "primary.main" }} />
+                          <PersonIcon sx={{ mr: 1, color: "#4A919E" }} />
                           <Typography variant="body2">
                             <strong>Assigné à:</strong>{" "}
                             {ticket.utilisateur_assigne
@@ -571,14 +571,14 @@ const PermanencierCamionTicket = () => {
                         </Box>
 
                         <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                          <LocationIcon sx={{ mr: 1, color: "primary.main" }} />
+                          <LocationIcon sx={{ mr: 1, color: "#7AA95C" }} />
                           <Typography variant="body2">
                             <strong>Poste:</strong> {ticket.poste}
                           </Typography>
                         </Box>
 
                         <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <CalendarIcon sx={{ mr: 1, color: "primary.main" }} />
+                          <CalendarIcon sx={{ mr: 1, color: "#212E53" }} />
                           <Typography variant="body2">
                             <strong>Créé le:</strong>{formatDate(ticket.heure_creation)}
                           </Typography>
