@@ -29,9 +29,9 @@ admin.site.register(Utilisateur, UtilisateurAdmin)
 
 # Admin pour le modèle Vehicule
 class VehiculeAdmin(admin.ModelAdmin):
-    list_display = ('matricule', 'type_vehicule', 'marque', 'modele', 'date_mise_en_service', 'tonnage_max', 'en_service')
-    list_filter = ('type_vehicule', 'marque', 'en_service')
-    search_fields = ('matricule', 'marque', 'modele')
+    list_display = ('type_vehicule',  'modele', 'en_service')
+    list_filter = ('type_vehicule', 'en_service')
+    search_fields = ('type_vehicule','modele')
 
 admin.site.register(Vehicule, VehiculeAdmin)
 

@@ -26,9 +26,9 @@ export const getDesignTokens = (mode, role) => {
               paper: "#1e1e1e",
             },
             text: {
-              primary: "#ffffff",
-              secondary: "#b0b0b0",
-            },
+              primary: "#5F6B38",
+              secondary: "#ffffff",
+            }
           }),
     },
   };

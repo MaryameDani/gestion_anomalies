@@ -10,18 +10,18 @@ import AdminDashboard from "./pages/admin/dashboard";
 import Historiques from "./pages/admin/historiques";
 import GenererRapport from "./pages/admin/genererRapport";
 import RapportsSauvegardes from "./pages/admin/rapportsSauvegardes";
-import Classement from "./pages/admin/classment";
-import PredictTonnage from "./pages/admin/predictTonnage";
 
 // Permanencier Camion Pages
 import PermanencierCamionDashboard from "./pages/permanencierCamion/dashboard";
 import PermanencierCamionTicket from "./pages/permanencierCamion/ticket";
-import PermanencierCamionFin from "./pages/permanencierCamion/formulaireFin";
+import PermanencierCamionFormulaireFin from "./pages/permanencierCamion/formulaireFin";
+import PermanencierCamionGestionTicket from "./pages/permanencierCamion/gestion_ticket";
 
 // Permanencier Machine Pages
 import PermanencierMachineDashboard from "./pages/permanencierMachine/dashboard";
 import PermanencierMachineTicket from "./pages/permanencierMachine/ticket";
 import PermanencierMachineFormulaireFin from "./pages/permanencierMachine/formulaireFin";
+import PermanencierMachineGestionTicket from "./pages/permanencierMachine/gestion_ticket";
 
 // Maintenance Dragline Pages
 import MaintenanceDraglineDashboard from "./pages/permanencierMaintenanceDragline/dashboard";
@@ -112,8 +112,6 @@ const AppLayout = () => {
         <Route path="historiques" element={<Historiques />} errorElement={<ErrorPage message="Erreur sur les historiques" />} />
         <Route path="genererRapport" element={<GenererRapport />} errorElement={<ErrorPage message="Erreur lors de la génération de rapport" />} />
         <Route path="rapportsSauvegardes" element={<RapportsSauvegardes />} errorElement={<ErrorPage message="Erreur sur les rapports sauvegardés" />} />
-        <Route path="classment" element={<Classement />} errorElement={<ErrorPage message="Erreur sur le classement" />} />
-        <Route path="PredictTonnage" element={<PredictTonnage />} errorElement={<ErrorPage message="Erreur sur la prédiction de tonnage" />} />
       </Route>
 
       {/* Routes Permanencier Camion */}
@@ -124,7 +122,8 @@ const AppLayout = () => {
       >
         <Route path="dashboard" element={<PermanencierCamionDashboard />} errorElement={<ErrorPage message="Erreur sur le tableau de bord Permanencier Camion" />} />
         <Route path="ticket" element={<PermanencierCamionTicket />} errorElement={<ErrorPage message="Erreur lors de la déclaration (Camion)" />} />
-        <Route path="formulaireFin" element={<PermanencierCamionFin />} errorElement={<ErrorPage message="Erreur sur le formulaire de fin (Camion)" />} />
+        <Route path="formulaireFin" element={<PermanencierCamionFormulaireFin />} errorElement={<ErrorPage message="Erreur sur le formulaire de fin (Camion)" />} />
+        <Route path="gestion_ticket" element={<PermanencierCamionGestionTicket />} errorElement={<ErrorPage message="Erreur sur la gestion des tickets (Camion)" />} />
       </Route>
 
       {/* Routes Permanencier Machine */}
@@ -136,6 +135,7 @@ const AppLayout = () => {
         <Route path="dashboard" element={<PermanencierMachineDashboard />} errorElement={<ErrorPage message="Erreur sur le tableau de bord Permanencier Machine" />} />
         <Route path="ticket" element={<PermanencierMachineTicket />} errorElement={<ErrorPage message="Erreur lors de la déclaration (Machine)" />} />
         <Route path="formulaireFin" element={<PermanencierMachineFormulaireFin />} errorElement={<ErrorPage message="Erreur sur le formulaire de fin (Machine)" />} />
+        <Route path="gestion_ticket" element={<PermanencierMachineGestionTicket />} errorElement={<ErrorPage message="Erreur sur la gestion des tickets (Machine)" />} />
       </Route>
 
       {/* Routes permanencierMaintenanceDragline */}

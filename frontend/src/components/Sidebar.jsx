@@ -65,7 +65,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#F8FBF1",
     borderRight: "none", // Suppression de la bordure
     boxShadow: theme.shadows[3],
     overflowX: "hidden",
@@ -95,37 +95,29 @@ const menuItemsConfig = {
           { text: "Rapports sauvegardés", path: "/admin/rapportsSauvegardes" },
         ],
       },
-      {
-        text: "Classement",
-        icon: <EmojiEventsIcon />,
-        path: "/admin/classment",
-      },
-      {
-        text: "Predict Tonnage",
-        icon: <TrendingUpIcon />,
-        path: "/admin/PredictTonnage",
-      },
     ],
   },
   permanencierCamion: {
     main: [
       { text: "Tableau de bord", icon: <DashboardOutlinedIcon />, path: "/permanencierCamion/dashboard" },
-      { text: "Déclarer anomalie", icon: <ReportProblemIcon />, path: "/permanencierCamion/ticket" },
+      { text: "Anomalie", icon: <ReportProblemIcon />, path: "/permanencierCamion/ticket" },
       { text: "Fin de poste", icon: <ExitToAppIcon />, path: "/permanencierCamion/formulaireFin" },
+      { text: "Gestion des anomalies", icon: <TrackChangesIcon />, path: "/permanencierCamion/gestion_ticket" },
     ],
   },
   permanencierMachine: {
     main: [
       { text: "Tableau de bord", icon: <DashboardOutlinedIcon />, path: "/permanencierMachine/dashboard" },
-      { text: "Déclarer anomalie", icon: <ReportProblemIcon />, path: "/permanencierMachine/ticket" },
+      { text: "Anomalie", icon: <ReportProblemIcon />, path: "/permanencierMachine/ticket" },
       { text: "Fin de poste", icon: <ExitToAppIcon />, path: "/permanencierMachine/formulaireFin" },
+      { text: "Gestion des anomalies", icon: <TrackChangesIcon />, path: "/permanencierMachine/gestion_ticket" },
     ],
   },
   permanencierMaintenanceDragline: {
     main: [
       { text: "Tableau de bord", icon: <DashboardOutlinedIcon />, path: "/permanencierMaintenanceDragline/dashboard" },
       {
-        text: "Les anomalies",
+        text: "Anomalies",
         icon: <SupervisorAccountIcon />,
         path: "/permanencierMaintenanceDragline/SuperviserAnomalies",
       },
@@ -135,7 +127,7 @@ const menuItemsConfig = {
     main: [
       { text: "Tableau de bord", icon: <DashboardOutlinedIcon />, path: "/permanencierMaintenanceEngin/dashboard" },
       {
-        text: "Les anomalies",
+        text: "Anomalies",
         icon: <SupervisorAccountIcon />,
         path: "/permanencierMaintenanceEngin/SuperviserAnomalies",
       },

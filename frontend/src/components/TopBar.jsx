@@ -19,7 +19,7 @@ const StyledAppBar = styled(AppBar, {
 // @ts-ignore
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: "#F8FBF1",
   color: theme.palette.text.primary,
   boxShadow: "none",
   borderBottom: `1px solid ${theme.palette.divider}`,
@@ -111,10 +111,10 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
           sx={{
             display: { xs: "none", sm: "block" },
             fontWeight: 600,
-            color: theme.palette.text.primary,
+            color: "#37633F",
           }}
         >
-          Gestion des Anomalies
+          GESTION DES ANOMALIES
         </Typography>
 
         <Box flexGrow={1} />
