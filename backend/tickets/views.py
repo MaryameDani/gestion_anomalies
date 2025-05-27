@@ -865,3 +865,67 @@ def modifier_heures_ticket(request, ticket_id):
         return Response(serializer.data)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.db.models import Q
+from .models import Vehicule, Ticket
+
+
+@api_view(['GET'])
+def situation_parc(request):
+    from django.db.models import Q
+    from .models import Vehicule, Ticket
+
+    categories = {
+        'CAMIONS': {'filter': Q(type_vehicule__icontains='CAMION'), 'title': 'SITUATION DU PARC CAMIONS'},
+        'BULLS': {'filter': Q(type_vehicule__icontains='BULL'), 'title': 'SITUATION DU PARC BULLS'},
+        'MACHINES_DEFRUITAGE': {'filter': Q(type_vehicule__icontains='MACHINE') & Q(stade__icontains='Defruitage'), 'title': 'SITUATION DU PARC MACHINES DEFRUITAGE'},
+        'MACHINES_DECAPAGE': {'filter': Q(type_vehicule__icontains='MACHINE') & Q(stade__icontains='Decapage'), 'title': 'SITUATION DU PARC MACHINES DECAPAGE'},
+        'MACHINES_SONDEUSES': {'filter': Q(type_vehicule__icontains='MACHINE') & Q(stade__icontains='Forage'), 'title': 'SITUATION DU PARC MACHINES SONDEUSES'},
+        'ENGIN': {'filter': Q(type_vehicule__icontains='ENGIN'), 'title': ' SITUATION DU PARC DIVERS'},
+    }
+
+    result = {}
+
+    for key, config in categories.items():
+        vehicules = Vehicule.objects.filter(config['filter']).order_by('modele')
+
+        tableau_data = []
+        for vehicule in vehicules:
+            tickets_actifs = Ticket.objects.filter(
+                vehicule=vehicule,
+                statut__in=['NOUVEAU', 'RESOLU', 'EN_COURS']
+            )
+
+            causes = []
+            gravites = []
+
+            for ticket in tickets_actifs:
+                # Anomalies standards actives
+                anomalies_actives = ticket.anomalies.filter(est_active=True)
+                causes.extend([a.nom for a in anomalies_actives])
+
+                # Anomalies personnalisées
+                if ticket.anomalies_personnalisees:
+                    causes.append(ticket.anomalies_personnalisees)
+
+                # ✅ Récupération de la gravité directement depuis le ticket
+                if ticket.gravite:
+                    gravites.append(ticket.gravite)
+
+            if causes:
+                tableau_data.append({
+                    'modele': vehicule.modele,
+                    'causes': ', '.join(causes),
+                    'gravites': gravites  # ✅ Liste des gravités
+                })
+
+        result[key] = {
+            'title': config['title'],
+            'data': tableau_data
+        }
+
+    return Response(result)

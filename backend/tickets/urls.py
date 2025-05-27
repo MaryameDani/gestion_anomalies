@@ -30,4 +30,7 @@ urlpatterns = [
     #Historique des tickets
     path('api/tableau-arrets/', views.tableau_arrets, name='tableau_arrets'),
     path('api/ticket/<int:ticket_id>/modifier-heures/', views.modifier_heures_ticket, name='modifier_heures_ticket'),
+
+    # Dashboard
+    path('api/situation_parc/', views.situation_parc, name='situation_parc'),
 ]
